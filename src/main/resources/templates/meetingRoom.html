@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>The Reservation Of Meeting Room</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">회의실 예약</a>
+        </nav>
+        <br/>
+        <div class="starter-template">
+            <h5>회의실 예약 정보 입력</h5>
+            <form class="form-horizontal" id="room-form">
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label">회의실</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="meetingRoomUuid">
+                            <option th:each="meetingRoom : ${meetingRooms}"
+                                    th:value="${meetingRoom.roomUuid}"
+                                    th:utext="${meetingRoom.roomName}"/>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label">예약자</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="memberUuid">
+                            <option th:each="member : ${members}"
+                                    th:value="${member.memberUuid}"
+                                    th:utext="${member.memberName}"/>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label">예약일자</label>
+                    <div class="col-sm-5">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                               <input class="form-control" id="reserveDate" placeholder="yyyy-mm-dd" type="text"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label">예약시간</label>
+                    <div class="col-md-6 form-group row">
+                        <input type="text" class="col-md-2 mb-3 form-control" id="startReserveTime" maxlength="5" placeholder="00:00" required/>
+                        ~
+                        <input type="text" class="col-md-2 mb-3 form-control" id="endReserveTime" maxlength="5" placeholder="00:00" required/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 control-label">반복횟수</label>
+                    <div class="col-sm-1">
+                        <input type="number" min="0" class="form-control" id="repeatCount"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" id="bth-reserve" class="btn btn-primary btn-lg">Reserve</button>
+                    </div>
+                </div>
+                <input type="hidden" id="reserveUuid"/>
+            </form>
+
+            <button id="bth-remove" class="btn btn-danger btn-lg" disabled>Remove</button>
+        </div>
+
+        <hr/>
+
+        <h5>예약현황</h5>
+        <form class="form-horizontal" id="search-form">
+            <div class="form-group row">
+                <label class="col-sm-2 control-label">예약일자</label>
+                <div class="col-sm-5">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <input class="form-control" id="searchReserveDate" placeholder="yyyy-mm-dd" type="text" required/>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" id="bth-search" class="btn btn-primary btn-lg">Search</button>
+            </div>
+        </form>
+        <table id="reservationTable" class="table table-bordered">
+            <thead class="thead-dark">
+            <tr class="text-center">
+                <th th:each="meetingRoom : ${meetingRooms}"
+                    th:utext="${meetingRoom.roomName}"/>
+            </tr>
+            </thead>
+            <tbody>
+                <td th:each="meetingRoom : ${meetingRooms}"
+                    th:id="${meetingRoom.roomUuid}"/>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript" src="webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+fixture:
+  addReservationRequestV1:
+    meetingRoomUuid: yTDxb0WaZc4Vpswv
+    memberUuid: YxBz38BgjyhcxKR0
+    reserveDate: 2019-02-23
+    startReserveTime: '09:00'
+    endReserveTime: '11:00'
+
+  reservationSuccess_1:
+    member:
+      memberUuid: YxBz38BgjyhcxKR0
+    meetingRoom:
+      roomUuid: yTDxb0WaZc4Vpswv
+    reserveDate: 2019-02-23
+    startReserveTime: '09:00'
+    endReserveTime: '11:00'
+
+  reservationSuccess_2:
+    member:
+      memberUuid: YxBz38BgjyhcxKR0
+    meetingRoom:
+      roomUuid: yTDxb0WaZc4Vpswv
+    reserveDate: 2019-02-23
+    startReserveTime: '15:30'
+    endReserveTime: '16:00'
+
+  reservationFail_1:
+    member:
+      memberUuid: 6WERwjK2rGkIOtUY
+    meetingRoom:
+      roomUuid: yTDxb0WaZc4Vpswv
+    reserveDate: 2019-02-23
+    startReserveTime: '09:00'
+    endReserveTime: '12:00'
+
+  reservationFail_2:
+    member:
+      memberUuid: 6WERwjK2rGkIOtUY
+    meetingRoom:
+      roomUuid: yTDxb0WaZc4Vpswv
+    reserveDate: 2019-02-23
+    startReserveTime: '14:30'
+    endReserveTime: '15:00'
+
+  reservationFail_3:
+    member:
+      memberUuid: 6WERwjK2rGkIOtUY
+    meetingRoom:
+      roomUuid: yTDxb0WaZc4Vpswv
+    reserveDate: 2019-02-23
+    startReserveTime: '14:00'
+    endReserveTime: '15:00'

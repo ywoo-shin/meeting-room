@@ -1,0 +1,23 @@
+fixture-db:
+  memberUuid1:
+    id: YxBz38BgjyhcxKR0
+  memberUuid2:
+    id: 6WERwjK2rGkIOtUY
+
+  reserveUuid1:
+    id: NLIqHUelEWpY1oLv
+
+  updateReservationRequestV1:
+    meetingRoomUuid: yTDxb0WaZc4Vpswv
+    startReserveTime: '16:00'
+    endReserveTime: '17:30'
+
+  reservation1:
+    reserveUuid:
+      id: MIbn7sVBvmI5Gofc
+    member:
+      memberUuid: YxBz38BgjyhcxKR0
+    meetingRoom:
+      roomUuid: yTDxb0WaZc4Vpswv
+    startReserveTime: '14:00'
+    endReserveTime: '15:00'
