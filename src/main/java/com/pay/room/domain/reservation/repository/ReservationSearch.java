@@ -32,27 +32,23 @@ public class ReservationSearch {
 
 		// 예약 시간 질의
 		if (StringUtils.isNotEmpty(startReserveTime) && StringUtils.isNotEmpty(endReserveTime)) {
+			// start < {start} and end > {start}
 			BooleanExpression e1 = reservation.startReserveTime.lt(startReserveTime).and(reservation.endReserveTime.gt(startReserveTime));
+			// start < {end} and end > {end}
 			BooleanExpression e2 = reservation.startReserveTime.lt(endReserveTime).and(reservation.endReserveTime.gt(endReserveTime));
-
+			// start > {start} and start < {end}
 			BooleanExpression e3 = reservation.startReserveTime.gt(startReserveTime).and(reservation.startReserveTime.lt(endReserveTime));
+			// end > {start} and end < {end}
 			BooleanExpression e4 = reservation.endReserveTime.gt(startReserveTime).and(reservation.endReserveTime.lt(endReserveTime));
-
+			// start = {start} and end = {end}
 			BooleanExpression e5 = reservation.startReserveTime.eq(startReserveTime).and(reservation.endReserveTime.eq(endReserveTime));
 
-			/*
-			start < {start} and end > {start}
-			or
-			start < {end} and end > {end}
-			or
-			start > {start} and start < {end}
-			or
-			end > {start} and end < {end}
-			or
-			start = {start} and end = {end}
-			 */
-			builder.and(e1.or(e2).or(e3).or(e4).or(e5));
+			builder.and(e1.or(e2)
+						  .or(e3)
+						  .or(e4)
+						  .or(e5));
 		}
+
 		if (reserveUuid != null && reserveUuid.isNotEmpty()) {
 			builder.and(reservation.reserveUuid.eq(reserveUuid));
 		}

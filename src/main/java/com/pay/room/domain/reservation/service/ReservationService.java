@@ -17,10 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.pay.room.common.exception.PayResultCode.REPOSITORY_DATA_NOT_EXIST;
 import static com.pay.room.domain.reservation.QReservation.reservation;
@@ -38,8 +36,7 @@ public class ReservationService {
 	public List<Reservation> list(Date reserveDate) {
 		return repository.findByReserveDate(reserveDate,
 											reservation.member.memberName.asc(),
-											reservation.startReserveTime.asc())
-						 .orElse(Collections.emptyList());
+											reservation.startReserveTime.asc());
 	}
 
 	@Transactional
@@ -55,15 +52,16 @@ public class ReservationService {
 	}
 
 	protected List<Reservation> bulkRegister(Reservation reservation, int repeatCount) {
+		int plusDay = 7;
 		LocalDate start = DateUtil.convertDateToLocalDate(reservation.getReserveDate());
-		LocalDate end = start.plusDays(repeatCount * 7);
+		LocalDate end = start.plusDays(repeatCount * plusDay);
 
 		List<Reservation> reservationList = new ArrayList<>();
 		int count = 0;
-		for (LocalDate date = start; date.isBefore(end); date = date.plusDays(7)) {
-			Reservation reservationDB =  repository.save(reservation.initReserveUuid()
-																	.setRepeatCount(repeatCount--)
-																	.setReserveDate(DateUtil.convertLocalDateToDate(date)));
+		for (LocalDate date = start; date.isBefore(end); date = date.plusDays(plusDay)) {
+			Reservation reservationDB = repository.save(reservation.initReserveUuid()
+																   .setRepeatCount(repeatCount--)
+																   .setReserveDate(DateUtil.convertLocalDateToDate(date)));
 			if (count % batchSize == 0) {
 				repository.flush();
 			}
@@ -96,18 +94,13 @@ public class ReservationService {
 		memberService.getMember(reservation.getMemberUuid());
 		meetingRoomService.getMeetingRoom(reservation.getMeetingRoomUuid());
 
-		repository.findReservationBySearch(reservation.getConditionIsReservation())
-				  .ifPresent(list -> {
+		List<Reservation> list = repository.findReservationBySearch(reservation.getConditionIsReservation());
+		if (reservation.isModifiedData()) {
+			list.removeIf(data -> data.getReserveUuid().equals(reservation.getReserveUuid()));
+		}
 
-					  if (reservation.isModifiedData()) {
-						  list = list.stream()
-									 .filter(data -> data.getReserveUuid() != reservation.getReserveUuid())
-									 .collect(Collectors.toList());
-					  }
-
-					  if (CollectionUtils.isNotEmpty(list)) {
-						  throw PayException.getInstance(PayResultCode.RESERVE_FAIL_ALREADY_RESERVATION);
-					  }
-				  });
+		if (CollectionUtils.isNotEmpty(list)) {
+			throw PayException.getInstance(PayResultCode.RESERVE_FAIL_ALREADY_RESERVATION);
+		}
 	}
 }

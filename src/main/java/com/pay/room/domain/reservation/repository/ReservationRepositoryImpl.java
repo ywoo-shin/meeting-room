@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import static com.pay.room.domain.member.QMember.member;
 import static com.pay.room.domain.reservation.QReservation.reservation;
@@ -20,16 +19,16 @@ public class ReservationRepositoryImpl extends QuerydslRepositorySupport impleme
 	}
 
 	@Override
-	public Optional<List<Reservation>> findReservationBySearch(ReservationSearch search) {
-		return Optional.ofNullable(executeQuery(search).fetch());
+	public List<Reservation> findReservationBySearch(ReservationSearch search) {
+		return executeQuery(search).fetch();
 	}
 
 	@Override
-	public Optional<List<Reservation>> findByReserveDate(Date reserveDate, OrderSpecifier... orders) {
-		return Optional.ofNullable(executeQuery(ReservationSearch.builder()
-																 .reserveDate(reserveDate)
-																 .build()).orderBy(orders)
-																		  .fetch());
+	public List<Reservation> findByReserveDate(Date reserveDate, OrderSpecifier... orders) {
+		return executeQuery(ReservationSearch.builder()
+											 .reserveDate(reserveDate)
+											 .build()).orderBy(orders)
+													  .fetch();
 	}
 
 	private JPQLQuery<Reservation> executeQuery(ReservationSearch search) {

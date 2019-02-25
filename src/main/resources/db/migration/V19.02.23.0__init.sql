@@ -24,10 +24,10 @@ CREATE TABLE `reservation` (
   `end_reserve_time` varchar(5) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  -- KEY `ix_reservation_01` (`member_uuid`),
-  -- KEY `ix_reservation_02` (`room_uuid`),
-  -- KEY `ix_reservation_03` (`start_reserve_time`),
-  -- KEY `ix_reservation_04` (`end_reserve_time`),
+  KEY `ix_reservation_01` (`member_uuid`),
+  KEY `ix_reservation_02` (`room_uuid`),
+  KEY `ix_reservation_03` (`start_reserve_time`),
+  KEY `ix_reservation_04` (`end_reserve_time`),
   PRIMARY KEY (`reserve_uuid`)
 );
 

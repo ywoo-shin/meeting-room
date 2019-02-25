@@ -57,7 +57,8 @@ public class ListReservationResponseV1 extends PayResponse {
 						 .entrySet()
 						 .stream()
 						 .map(roomEntry -> {
-							 Function<Map.Entry<Member, List<Reservation>>, ReservationProtocol> reservedProtocol =
+
+						 	Function<Map.Entry<Member, List<Reservation>>, ReservationProtocol> reservedProtocol =
 								 memberEntry -> {
 									 Function<Reservation, ReservationTimeProtocol> timeProtocol =
 										 reservation -> ReservationTimeProtocol.builder()
@@ -89,8 +90,8 @@ public class ListReservationResponseV1 extends PayResponse {
 																			  .map(reservedProtocol)
 																			  .collect(Collectors.toList()))
 													   .build();
-						 })
-						 .collect(Collectors.toList());
+
+						 }).collect(Collectors.toList());
 		return this;
 	}
 }
